@@ -8,6 +8,8 @@ namespace CompiladorModula2
 {
     public partial class Form1 : Form
     {
+        private List<string> erroresLexicos = new List<string>();
+
         public Form1()
         {
             InitializeComponent();
@@ -60,6 +62,7 @@ namespace CompiladorModula2
             lbControl.Items.Clear();
             tablaSimbolos.Clear();
             contadorPorCategoria.Clear();
+            List<string> erroresLexicos = new List<string>();  // <-- NUEVO
 
             string[] lineas = txtBloqueCodigo.Text.Split('\n');
             int numLinea = 1;
@@ -109,7 +112,7 @@ namespace CompiladorModula2
 
             MostrarTablaSimbolos();
 
-            // Etapa 2: Tokens léxicos
+            // Etapa 2: Tokens léxicos con detección de errores
             contadorPorCategoria.Clear();
             numLinea = 1;
 
@@ -130,7 +133,19 @@ namespace CompiladorModula2
                     else if (upperToken == "AND" || upperToken == "OR" || upperToken == "NOT")
                         RegistrarToken(token, 40);
                     else if (Regex.IsMatch(token, @"^[a-zA-Z][a-zA-Z0-9]*$"))
-                        RegistrarToken(token, 10);
+                    {
+                        // Rechazar si es una palabra que se parece mucho a una reservada, pero no lo es
+                        if (palabrasReservadas.Any(res => res.StartsWith(token) || token.StartsWith(res)) && !palabrasReservadas.Contains(token.ToUpper()))
+                        {
+                            erroresLexicos.Add($"[Línea {numLinea}] Error léxico: Token inválido '{token}' (posible palabra reservada mal escrita)");
+                        }
+                        else
+                        {
+                            RegistrarToken(token, 10);
+                        }
+                    }
+
+
                     else if (Regex.IsMatch(token, @"^\d+$"))
                         RegistrarToken(token, 15);
                     else if (Regex.IsMatch(token, @"^\d+\.\d+$"))
@@ -155,9 +170,24 @@ namespace CompiladorModula2
                         RegistrarToken(token, 65);
                     else if (new[] { "{", "}", "(", ")", "[", "]" }.Contains(token))
                         RegistrarToken(token, 70);
+                    else
+                    {
+                        erroresLexicos.Add($"[Línea {numLinea}] Error léxico: Token no reconocido '{token}'");
+                    }
                 }
 
                 numLinea++;
+            }
+
+            // Mostrar errores léxicos
+            if (erroresLexicos.Count > 0)
+            {
+                foreach (string error in erroresLexicos)
+                    lbControl.Items.Add(error);
+            }
+            else
+            {
+                lbControl.Items.Add("✔ Análisis léxico completado sin errores.");
             }
 
             lbControl.Items.Add($"Líneas analizadas: {numLinea - 1}");
@@ -166,6 +196,7 @@ namespace CompiladorModula2
             NodoArbol arbol = ConstruirArbol(lineas);
             MostrarArbol(arbol);
         }
+
 
         private void RegistrarVariable(string nombre, string tipo, int linea)
         {
