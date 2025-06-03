@@ -1,0 +1,33 @@
+# Archivos y carpetas de Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Archivos de compilación
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# Archivos temporales
+*.log
+*.tmp
+*.bak
+*.orig
+
+# Archivos de diseño/autogenerados
+*.Designer.cs~
+*.resx~
+
+# Configuraciones locales
+launchSettings.json
+
+# Publicaciones
+*.Publish.xml
+*.pubxml
+*.publishproj
+PublishProfiles/
