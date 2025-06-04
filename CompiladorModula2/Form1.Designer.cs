@@ -41,6 +41,7 @@
             tvArbol = new TreeView();
             lbControl = new ListBox();
             lbTokens = new ListBox();
+            btnLimpiar = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvTablaSimbolos).BeginInit();
             SuspendLayout();
             // 
@@ -114,7 +115,7 @@
             // 
             btnAnalisisLexico.Cursor = Cursors.Hand;
             btnAnalisisLexico.Font = new Font("Microsoft JhengHei", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAnalisisLexico.Location = new Point(116, 682);
+            btnAnalisisLexico.Location = new Point(129, 666);
             btnAnalisisLexico.Margin = new Padding(5, 4, 5, 4);
             btnAnalisisLexico.Name = "btnAnalisisLexico";
             btnAnalisisLexico.Size = new Size(184, 37);
@@ -188,11 +189,23 @@
             lbTokens.Size = new Size(246, 487);
             lbTokens.TabIndex = 29;
             // 
+            // btnLimpiar
+            // 
+            btnLimpiar.Font = new Font("Century Gothic", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnLimpiar.Location = new Point(129, 58);
+            btnLimpiar.Name = "btnLimpiar";
+            btnLimpiar.Size = new Size(154, 35);
+            btnLimpiar.TabIndex = 31;
+            btnLimpiar.Text = "Limpiar";
+            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.Click += btnLimpiar_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(17F, 34F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1961, 732);
+            Controls.Add(btnLimpiar);
             Controls.Add(lbTokens);
             Controls.Add(lbControl);
             Controls.Add(tvArbol);
@@ -210,7 +223,7 @@
             Margin = new Padding(5, 4, 5, 4);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
+            Text = "Modula-2";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dgvTablaSimbolos).EndInit();
             ResumeLayout(false);
@@ -232,5 +245,6 @@
         private TreeView tvArbol;
         private ListBox lbControl;
         private ListBox lbTokens;
+        private Button btnLimpiar;
     }
 }
